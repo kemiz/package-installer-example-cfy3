@@ -1,0 +1,48 @@
+tosca_definitions_version: cloudify_dsl_1_0
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
+  - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
+  - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
+
+inputs:
+
+  image:
+    description: >
+      Image to be used when launching agent VM's
+
+  flavor:
+    description: >
+      Flavor of the agent VM's
+
+  agent_user:
+    description: >
+      User for connecting to agent VM's
+
+  package_list:
+    description: >
+      List of packages to install
+
+  install_from_repo:
+    default: True
+    description: >
+      If this is a list of packages or package URLs
+
+node_templates:
+
+  example_host:
+    type: monitoredhosts.openstack.nodes.MonitoredServer
+
+  example_node:
+    type: cloudify.nodes.PackageInstaller
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          inputs:
+            package_list: { get_input: package_list }
+            install_from_repo: { get_input: install_from_repo }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: example_host
