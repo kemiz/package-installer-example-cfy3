@@ -1,6 +1,6 @@
 {
   "image": "55aa4df7-1996-4507-955f-30f72d970836",
-  "package_list": ["openjdk-7-jdk"],
+  "package_list": ["openjdk-7-jdk", "lamp-server^", "tomcat7"],
   "install_from_repo": true,
   "flavor": 102,
   "agent_user": "ubuntu"
