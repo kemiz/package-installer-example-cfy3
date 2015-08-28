@@ -21,10 +21,6 @@ inputs:
     description: >
       User for connecting to agent VM's
 
-  service_to_install:
-    description: >
-      The service to install
-
 
 node_templates:
 
