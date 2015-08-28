@@ -5,7 +5,7 @@ imports:
   - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
   - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
-  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
+  - /Users/kemi/Documents/Development/cloudify-package-installer-plugin/plugin.yaml
 
 inputs:
 
@@ -21,28 +21,41 @@ inputs:
     description: >
       User for connecting to agent VM's
 
-  package_list:
+  service_to_install:
     description: >
-      List of packages to install
-
-  install_from_repo:
-    default: True
-    description: >
-      If this is a list of packages or package URLs
+      The service to install
 
 node_templates:
 
-  example_host:
+
+  elasticsearch_host:
     type: monitoredhosts.openstack.nodes.MonitoredServer
 
-  example_node:
-    type: cloudify.nodes.PackageInstaller
-    interfaces:
-      cloudify.interfaces.lifecycle:
-        create:
-          inputs:
-            package_list: { get_input: package_list }
-            install_from_repo: { get_input: install_from_repo }
+  tomcat_host:
+    type: monitoredhosts.openstack.nodes.MonitoredServer
+
+  elasticsearch:
+    type: cloudify.nodes.Elasticsearch
     relationships:
       - type: cloudify.relationships.contained_in
-        target: example_host
+        target: elasticsearch_host
+
+
+  tomcat:
+    type: cloudify.nodes.TomcatServer
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: tomcat_host
+
+
+  application:
+    type: cloudify.nodes.TomcatApplication
+    properties:
+      name: 'example_app'
+      version: '1.0'
+      application_binary: 'http://raw.githubusercontent.com/kemiz/example_app/example_app.war'
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: tomcat
+      - type: cloudify.relationships.connected_to
+        target: elasticsearch
