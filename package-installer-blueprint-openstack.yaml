@@ -25,8 +25,8 @@ inputs:
     description: >
       The service to install
 
-node_templates:
 
+node_templates:
 
   elasticsearch_host:
     type: monitoredhosts.openstack.nodes.MonitoredServer
