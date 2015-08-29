@@ -9,8 +9,8 @@ imports:
   - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
   - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
-  - /Users/kemi/Documents/Development/cloudify-package-installer-plugin/plugin.yaml
-#  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
+#  - /Users/kemi/Documents/Development/cloudify-package-installer-plugin/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
 
 inputs:
 
