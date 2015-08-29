@@ -1,3 +1,7 @@
+##################################################################################
+# Package Installer Blueprint Example
+##################################################################################
+
 tosca_definitions_version: cloudify_dsl_1_0
 
 imports:
@@ -5,6 +9,7 @@ imports:
   - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
   - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
+#  - /Users/kemi/Documents/Development/cloudify-package-installer-plugin/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
 
 inputs:
@@ -24,11 +29,22 @@ inputs:
 
 node_templates:
 
+  ##################################################################################
+  # Infrastructure Nodes
+  ##################################################################################
+
   elasticsearch_host:
     type: monitoredhosts.openstack.nodes.MonitoredServer
 
   tomcat_host:
     type: monitoredhosts.openstack.nodes.MonitoredServer
+
+  mongod_host:
+    type: monitoredhosts.openstack.nodes.MonitoredServer
+
+  ##################################################################################
+  # Service Nodes
+  ##################################################################################
 
   elasticsearch:
     type: cloudify.nodes.Elasticsearch
@@ -36,13 +52,21 @@ node_templates:
       - type: cloudify.relationships.contained_in
         target: elasticsearch_host
 
-
   tomcat:
     type: cloudify.nodes.TomcatServer
     relationships:
       - type: cloudify.relationships.contained_in
         target: tomcat_host
 
+  mongod:
+    type: cloudify.nodes.MongoDB
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: mongod_host
+
+  ##################################################################################
+  # Application Nodes
+  ##################################################################################
 
   application:
     type: cloudify.nodes.TomcatApplication
