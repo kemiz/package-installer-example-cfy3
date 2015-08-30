@@ -10,6 +10,7 @@ imports:
   - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
   - /Users/kemi/Documents/Development/cloudify-package-installer-plugin/plugin.yaml
+  - /Users/kemi/Documents/Development/tomcat-plugin-cfy3/plugin.yaml
 #  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
 
 inputs:
@@ -50,6 +51,12 @@ node_templates:
 
   mongod:
     type: cloudify.nodes.MongoDB
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: mongod_host
+
+  tomcat:
+    type: cloudify.nodes.TomcatServer
     relationships:
       - type: cloudify.relationships.contained_in
         target: mongod_host
