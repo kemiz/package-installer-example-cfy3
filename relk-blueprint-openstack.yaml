@@ -9,7 +9,6 @@ imports:
   - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
   - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
   - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
-#  - https://raw.githubusercontent.com/kemiz/tomcat-plugin-cfy3/master/plugin.yaml
   - /Users/kemi/Documents/Development/cloudify-3-plugins/cloudify-elasticsearch-plugin/plugin.yaml
   - /Users/kemi/Documents/Development/tomcat-plugin-cfy3/plugin.yaml
   - /Users/kemi/Documents/Development/cloudify-package-installer-plugin/service_types.yaml
@@ -63,7 +62,7 @@ node_templates:
         target: elasticsearch_host
 
   logstash:
-    type: cloudify.nodes.Logstash
+    type: cloudify.nodes.TomcatServer
     relationships:
       - type: cloudify.relationships.contained_in
         target: logstash_host
